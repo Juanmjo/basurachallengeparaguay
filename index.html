@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basura Challenge Paraguay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <!-- Anime.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #1db954;
+      --green-dark: #17a045;
+      --green-deep: #0d6e2f;
+      --blue: #4fc3f7;
+      --blue-light: #81d4fa;
+      --white: #ffffff;
+      --off-white: #f0faf3;
+      --text-dark: #0a2e14;
+      --text-mid: #2d5a38;
+      --gray-light: #e8f5ec;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 48px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(29,185,84,0.12);
+      transition: all 0.3s;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .nav-brand {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--green-dark);
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    .nav-brand span {
+      display: block;
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--text-mid);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green-dark); }
+
+    .nav-cta {
+      background: var(--green);
+      color: white !important;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--green-dark) !important; color: white !important; }
+
+    /* ───── HERO ───── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--text-dark);
+      padding-top: 80px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 60% at 60% 50%, rgba(29,185,84,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 70% at 20% 80%, rgba(79,195,247,0.12) 0%, transparent 60%),
+        linear-gradient(135deg, #071a0e 0%, #0a2e14 40%, #0d3d1a 100%);
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(29,185,84,0.15);
+      border: 1px solid rgba(29,185,84,0.3);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(42px, 5vw, 32px);
+      font-weight: 900;
+      line-height: 1.0;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .hero-title .accent { color: var(--green); }
+    .hero-title .accent-blue { color: var(--blue); }
+
+    .hero-desc {
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      margin-bottom: 44px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: white;
+      padding: 16px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      transition: all 0.25s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(29,185,84,0.35);
+    }
+
+    .btn-outline {
+      color: rgba(255,255,255,0.8);
+      padding: 16px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.25s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: white;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .hero-logo-ring {
+      width: 300px;
+      height: 300px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ring-outer {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(29,185,84,0.3);
+      animation: spin-slow 20s linear infinite;
+    }
+
+    .ring-outer::before {
+      content: '';
+      position: absolute;
+      top: -4px; left: 50%;
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    .ring-middle {
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      border: 1px dashed rgba(79,195,247,0.25);
+      animation: spin-slow 15s linear infinite reverse;
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-logo-img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 50%;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 0 30px rgba(29,185,84,0.4));
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(29,185,84,0.3)); }
+      50% { filter: drop-shadow(0 0 40px rgba(29,185,84,0.6)); }
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    .stat-divider {
+      width: 1px;
+      background: rgba(255,255,255,0.1);
+      align-self: stretch;
+    }
+
+    /* ───── FEATURES STRIP (MARQUEE CON ANIME.JS) ───── */
+    .features-strip {
+      background: var(--green);
+      padding: 20px 0;
+      overflow: hidden;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .marquee-container {
+      display: inline-block;
+      will-change: transform;
+    }
+
+    .strip-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-right: 60px;
+    }
+
+    .strip-icon {
+      font-size: 18px;
+    }
+
+    /* Pausar animación al hacer hover */
+    .features-strip:hover .marquee-container {
+      animation-play-state: paused;
+    }
+
+    /* ───── MISSION ───── */
+    .section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 24px; height: 2px;
+      background: var(--green);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+    }
+
+    .section-title .green { color: var(--green); }
+    .section-title .blue { color: #3bb2e8; }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .mission-text p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #4a6e55;
+      margin-bottom: 20px;
+    }
+
+    .mission-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .pillar {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--off-white);
+      border-radius: 16px;
+      border-left: 4px solid var(--green);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pillar:hover {
+      transform: translateX(6px);
+      box-shadow: 0 8px 24px rgba(29,185,84,0.1);
+    }
+
+    .pillar-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pillar-content h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .pillar-content p {
+      font-size: 13px;
+      color: #6a8f74;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .mission-visual {
+      position: relative;
+    }
+
+    .mission-card-stack {
+      position: relative;
+      height: 440px;
+    }
+
+    .mcard {
+      position: absolute;
+      border-radius: 24px;
+      padding: 32px;
+      color: white;
+    }
+
+    .mcard-1 {
+      top: 0; right: 0;
+      width: 85%;
+      background: linear-gradient(135deg, #0d6e2f, #1db954);
+      transform: rotate(2deg);
+      z-index: 1;
+    }
+
+    .mcard-2 {
+      bottom: 0; left: 0;
+      width: 85%;
+      background: linear-gradient(135deg, #0288d1, #4fc3f7);
+      transform: rotate(-1.5deg);
+      z-index: 2;
+    }
+
+    .mcard-top {
+      z-index: 3 !important;
+      top: 60px;
+      left: 0; right: 0;
+      margin: 0 auto;
+      width: 80%;
+      background: white;
+      color: var(--text-dark);
+      border: 1px solid var(--gray-light);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      transform: none !important;
+    }
+
+    .mcard h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .mcard p {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.85;
+      margin: 0;
+    }
+
+    .mcard-top h3 { color: var(--text-dark); opacity: 1; }
+    .mcard-top p { color: #4a6e55; opacity: 1; }
+
+    .mcard-emoji {
+      font-size: 40px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    /* ───── ACTIVITIES ───── */
+    .activities-section {
+      background: var(--text-dark);
+      padding: 100px 48px;
+    }
+
+    .activities-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .activities-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 60px;
+    }
+
+    .activities-header .section-label { color: var(--green); }
+    .activities-header .section-title { color: white; margin-bottom: 0; }
+
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .activity-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 36px 28px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--green);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .activity-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(29,185,84,0.3);
+      transform: translateY(-6px);
+    }
+
+    .activity-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .activity-card.featured {
+      background: linear-gradient(135deg, rgba(29,185,84,0.15), rgba(29,185,84,0.05));
+      border-color: rgba(29,185,84,0.3);
+      grid-row: span 1;
+    }
+
+    .activity-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 64px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.05);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .activity-icon-wrap {
+      width: 52px;
+      height: 52px;
+      background: rgba(29,185,84,0.15);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .activity-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .activity-card p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .activity-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    /* ───── WASTE TYPES ───── */
+    .waste-section {
+      background: var(--off-white);
+      padding: 100px 48px;
+    }
+
+    .waste-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .waste-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .waste-header .section-label {
+      justify-content: center;
+    }
+
+    .waste-header .section-label::before { display: none; }
+
+    .waste-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .waste-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid transparent;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .waste-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+
+    .waste-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .waste-card h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .waste-card p {
+      font-size: 12px;
+      color: #7a9e84;
+      line-height: 1.5;
+    }
+
+    .waste-card.c1 { border-color: #4caf50; }
+    .waste-card.c1 h4 { color: #2e7d32; }
+    .waste-card.c1:hover { box-shadow: 0 16px 40px rgba(76,175,80,0.15); }
+
+    .waste-card.c2 { border-color: #2196f3; }
+    .waste-card.c2 h4 { color: #1565c0; }
+    .waste-card.c2:hover { box-shadow: 0 16px 40px rgba(33,150,243,0.15); }
+
+    .waste-card.c3 { border-color: #ff9800; }
+    .waste-card.c3 h4 { color: #e65100; }
+    .waste-card.c3:hover { box-shadow: 0 16px 40px rgba(255,152,0,0.15); }
+
+    .waste-card.c4 { border-color: #9c27b0; }
+    .waste-card.c4 h4 { color: #6a1b9a; }
+    .waste-card.c4:hover { box-shadow: 0 16px 40px rgba(156,39,176,0.15); }
+
+    .waste-card.c5 { border-color: #f44336; }
+    .waste-card.c5 h4 { color: #b71c1c; }
+    .waste-card.c5:hover { box-shadow: 0 16px 40px rgba(244,67,54,0.15); }
+
+    /* ───── IMPACT ───── */
+    .impact-section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .impact-numbers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .impact-num-card {
+      background: var(--off-white);
+      border-radius: 20px;
+      padding: 32px 24px;
+      border-bottom: 4px solid var(--green);
+      transition: transform 0.2s;
+    }
+
+    .impact-num-card:hover { transform: translateY(-4px); }
+
+    .impact-num-card:nth-child(2) { border-color: var(--blue); }
+    .impact-num-card:nth-child(3) { border-color: #ff9800; }
+    .impact-num-card:nth-child(4) { border-color: #9c27b0; }
+
+    .icard-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .impact-num-card:nth-child(2) .icard-num { color: #3bb2e8; }
+    .impact-num-card:nth-child(3) .icard-num { color: #ff9800; }
+    .impact-num-card:nth-child(4) .icard-num { color: #9c27b0; }
+
+    .icard-label {
+      font-size: 13px;
+      color: #6a8f74;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .impact-text p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #4a6e55;
+      margin-bottom: 20px;
+    }
+
+    .lake-names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .lake-tag {
+      background: var(--off-white);
+      border: 1px solid rgba(29,185,84,0.25);
+      color: var(--green-dark);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 50px;
+    }
+
+    /* ───── JOIN ───── */
+    .join-section {
+      background: linear-gradient(135deg, #071a0e 0%, #0a2e14 50%, #0d3d1a 100%);
+      padding: 120px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .join-section::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(29,185,84,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .join-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .join-section .section-label {
+      justify-content: center;
+      color: var(--green);
+    }
+
+    .join-section .section-label::before { display: none; }
+
+    .join-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(36px, 4vw, 60px);
+      font-weight: 900;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .join-title .green { color: var(--green); }
+
+    .join-desc {
+      font-size: 17px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .join-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .join-input {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      padding: 16px 24px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .join-input::placeholder { color: rgba(255,255,255,0.35); }
+    .join-input:focus { border-color: rgba(29,185,84,0.6); }
+
+    .join-btn {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 16px 30px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      white-space: nowrap;
+    }
+
+    .join-btn:hover {
+      background: var(--green-dark);
+      box-shadow: 0 8px 24px rgba(29,185,84,0.4);
+    }
+
+    /* ───── FOOTER ───── */
+    footer {
+      background: #040e07;
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand img {
+      width: 36px;
+      object-fit: contain;
+      border-radius: 50%;
+      opacity: 0.85;
+    }
+
+    .footer-brand-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--green); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+    }
+
+    .footer-copy a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+    }
+
+    .footer-copy a:hover {
+      color: var(--green);
+    }
+
+    /* ───── SCROLL ANIMATIONS ───── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero-content { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; text-align: center; }
+      .hero-visual { order: -1; }
+      .hero-actions { justify-content: center; }
+      .hero-desc { margin: 0 auto 44px; }
+      .section { padding: 64px 24px; }
+      .mission-grid { grid-template-columns: 1fr; gap: 48px; }
+      .activities-section { padding: 64px 24px; }
+      .activities-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .activities-grid { grid-template-columns: 1fr; }
+      .waste-section { padding: 64px 24px; }
+      .waste-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .waste-grid .waste-card:last-child { grid-column: span 2; }
+      .impact-section { padding: 64px 24px; }
+      .impact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .join-section { padding: 80px 24px; }
+      .join-form { flex-direction: column; }
+      .features-strip { gap: 28px; flex-wrap: wrap; padding: 16px 24px; justify-content: center; }
+      footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <img src="assets/BCP_LOGO.jpg" alt="Basura Challenge Paraguay Logo" />
+      <div class="nav-brand">
+        Basura Challenge
+        <span>Paraguay</span>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#mision">Misión</a></li>
+      <li><a href="#actividades">Actividades</a></li>
+      <li><a href="#residuos">Residuos</a></li>
+      <li><a href="#impacto">Impacto</a></li>
+      <li><a href="#unirse" class="nav-cta">Sumate</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h3 class="hero-title">
+          <span class="accent-blue">#</span>
+          No solo nos preocupamos<br>
+          <span class="accent-blue">#</span>
+          También nos ocupamos
+        </h3>
+        <p class="hero-desc">
+          Trabajamos para proteger los cuerpos de agua de Paraguay, organizando jornadas de limpieza, educando sobre tipos de residuos y construyendo comunidades conscientes.
+        </p>
+        <div class="hero-actions">
+          <a href="#unirse" class="btn-primary">Quiero participar</a>
+          <a href="#actividades" class="btn-outline">Ver actividades</a>
+          <span></span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-logo-ring">
+          <div class="ring-outer"></div>
+          <div class="ring-middle"></div>
+          <img src="assets/BCP_LOGO.jpg" alt="Basura Challenge Paraguay Logo" class="hero-logo-img" />
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-num">12+</div>
+            <div class="stat-label">Lagos</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-num">4K</div>
+            <div class="stat-label">Voluntarios</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-num">8T</div>
+            <div class="stat-label">Residuos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES STRIP con efecto marquee usando Anime.js -->
+  <div class="features-strip" id="featuresStrip">
+    <div class="marquee-container" id="marqueeContainer">
+      <div class="strip-item"><span class="strip-icon">🌊</span> Limpieza de orillas</div>
+      <div class="strip-item"><span class="strip-icon">♻️</span> Clasificación de residuos</div>
+      <div class="strip-item"><span class="strip-icon">📚</span> Capacitaciones</div>
+      <div class="strip-item"><span class="strip-icon">🤝</span> Comunidades activas</div>
+      <div class="strip-item"><span class="strip-icon">🌱</span> Ecosistema saludable</div>
+      <!-- Duplicamos el contenido para que el loop sea continuo -->
+      <div class="strip-item"><span class="strip-icon">🌊</span> Limpieza de orillas</div>
+      <div class="strip-item"><span class="strip-icon">♻️</span> Clasificación de residuos</div>
+      <div class="strip-item"><span class="strip-icon">📚</span> Capacitaciones</div>
+      <div class="strip-item"><span class="strip-icon">🤝</span> Comunidades activas</div>
+      <div class="strip-item"><span class="strip-icon">🌱</span> Ecosistema saludable</div>
+    </div>
+  </div>
+
+  <!-- MISSION -->
+  <section id="mision">
+    <div class="section">
+      <div class="mission-grid">
+        <div class="mission-text fade-in">
+          <div class="section-label">Nuestra Misión</div>
+          <h2 class="section-title">Proteger el agua es<br><span class="green">proteger la vida.</span></h2>
+          <p>Los lagos y ríos de Paraguay son fuente de vida para millones de personas. Sin embargo, la contaminación por residuos sólidos amenaza estos ecosistemas cada día.</p>
+          <p>Basura Challenge nació para revertir ese daño, uniendo a ciudadanos, comunidades y organizaciones en una misma causa: aguas limpias para generaciones futuras.</p>
+          <div class="mission-pillars">
+            <div class="pillar">
+              <span class="pillar-icon">🧹</span>
+              <div class="pillar-content">
+                <h4>Jornadas de limpieza</h4>
+                <p>Eventos presenciales donde voluntarios retiran residuos de orillas y fondos de lagos.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <span class="pillar-icon">🎓</span>
+              <div class="pillar-content">
+                <h4>Educación ambiental</h4>
+                <p>Talleres y capacitaciones sobre clasificación y manejo correcto de residuos.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <span class="pillar-icon">📣</span>
+              <div class="pillar-content">
+                <h4>Concientización social</h4>
+                <p>Campañas para crear una cultura de respeto y cuidado por el medioambiente.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mission-visual fade-in fade-in-delay-2">
+          <div class="mission-card-stack">
+            <div class="mcard mcard-1">
+              <span class="mcard-emoji">🌊</span>
+              <h3>Agua limpia</h3>
+              <p>Un lago libre de residuos es un ecosistema vivo que sostiene flora, fauna y comunidades.</p>
+            </div>
+            <div class="mcard mcard-2">
+              <span class="mcard-emoji">💧</span>
+              <h3>Acción directa</h3>
+              <p>Cada jornada elimina toneladas de residuos antes de que lleguen a las profundidades.</p>
+            </div>
+            <div class="mcard mcard-top">
+              <span class="mcard-emoji">🤝</span>
+              <h3 style="color: var(--green-dark);">Juntos lo logramos</h3>
+              <p>Más de 4.000 voluntarios ya forman parte del movimiento más verde de Paraguay.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVITIES -->
+  <section id="actividades" class="activities-section">
+    <div class="activities-inner">
+      <div class="activities-header">
+        <div>
+          <div class="section-label">Lo que hacemos</div>
+          <h2 class="section-title" style="color: white;">Actividades que<br><span style="color: var(--green);">generan cambio.</span></h2>
+        </div>
+      </div>
+
+      <div class="activities-grid">
+        <div class="activity-card featured fade-in">
+          <div class="activity-num">01</div>
+          <div class="activity-icon-wrap">🏊</div>
+          <h3>Limpieza de lagos</h3>
+          <p>Organizamos jornadas presenciales donde buceadores y voluntarios en orillas trabajan en conjunto para extraer residuos del agua y las riberas.</p>
+          <span class="activity-tag">→ Próxima fecha: Lago Ypacaraí</span>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-1">
+          <div class="activity-num">02</div>
+          <div class="activity-icon-wrap">🗃️</div>
+          <h3>Clasificación de residuos</h3>
+          <p>Enseñamos a identificar y separar correctamente plásticos, vidrios, metales y residuos orgánicos para facilitar su reciclaje.</p>
+          <span class="activity-tag">→ Taller mensual</span>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-2">
+          <div class="activity-num">03</div>
+          <div class="activity-icon-wrap">🏫</div>
+          <h3>Educación en escuelas</h3>
+          <p>Llevamos el mensaje a las nuevas generaciones con talleres interactivos en colegios y universidades de todo el país.</p>
+          <span class="activity-tag">→ Programa escolar activo</span>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-1">
+          <div class="activity-num">04</div>
+          <div class="activity-icon-wrap">📊</div>
+          <h3>Monitoreo ambiental</h3>
+          <p>Medimos la calidad del agua y la cantidad de residuos antes y después de cada jornada para documentar el impacto real.</p>
+          <span class="activity-tag">→ Datos publicados abiertos</span>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-2">
+          <div class="activity-num">05</div>
+          <div class="activity-icon-wrap">🌐</div>
+          <h3>Red de voluntarios</h3>
+          <p>Construimos una comunidad comprometida con el medioambiente, conectando personas con propósito en toda Paraguay.</p>
+          <span class="activity-tag">→ Sumate hoy</span>
+        </div>
+        <div class="activity-card fade-in fade-in-delay-3">
+          <div class="activity-num">06</div>
+          <div class="activity-icon-wrap">📱</div>
+          <h3>Campañas digitales</h3>
+          <p>Amplificamos el mensaje a través de redes sociales y contenido digital que inspira a miles a tomar acción desde casa.</p>
+          <span class="activity-tag">→ #BasuraChallengePY</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WASTE TYPES -->
+  <section id="residuos" class="waste-section">
+    <div class="waste-inner">
+      <div class="waste-header fade-in">
+        <div class="section-label">Capacitación</div>
+        <h2 class="section-title">Conocé los tipos de <span class="green">residuos</span></h2>
+        <p style="font-size: 17px; color: #4a6e55; max-width: 540px; margin: 0 auto; line-height: 1.7;">
+          El primer paso para cuidar el ambiente es saber qué tiramos. Aprendé a clasificar para que cada residuo llegue al lugar correcto.
+        </p>
+      </div>
+
+      <div class="waste-grid">
+        <div class="waste-card c1 fade-in">
+          <span class="waste-icon">🥬</span>
+          <h4>Orgánicos</h4>
+          <p>Restos de alimentos, hojas y materias biodegradables. Se convierten en compost.</p>
+        </div>
+        <div class="waste-card c2 fade-in fade-in-delay-1">
+          <span class="waste-icon">♻️</span>
+          <h4>Reciclables</h4>
+          <p>Plástico, papel, cartón y metal que pueden ser procesados nuevamente.</p>
+        </div>
+        <div class="waste-card c3 fade-in fade-in-delay-2">
+          <span class="waste-icon">🍶</span>
+          <h4>Vidrio</h4>
+          <p>Botellas y frascos. Reciclable al 100% y reutilizable infinitas veces.</p>
+        </div>
+        <div class="waste-card c4 fade-in fade-in-delay-3">
+          <span class="waste-icon">⚠️</span>
+          <h4>Peligrosos</h4>
+          <p>Pilas, medicamentos y químicos que requieren tratamiento especial.</p>
+        </div>
+        <div class="waste-card c5 fade-in fade-in-delay-4">
+          <span class="waste-icon">🚫</span>
+          <h4>No reciclables</h4>
+          <p>Residuos que no pueden reciclarse y deben gestionarse con cuidado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT -->
+  <section id="impacto" class="impact-section">
+    <div class="impact-grid">
+      <div class="impact-numbers fade-in">
+        <div class="impact-num-card">
+          <div class="icard-num">8.2T</div>
+          <div class="icard-label">Toneladas de residuos retirados de lagos</div>
+        </div>
+        <div class="impact-num-card">
+          <div class="icard-num">4.300</div>
+          <div class="icard-label">Voluntarios activos en toda Paraguay</div>
+        </div>
+        <div class="impact-num-card">
+          <div class="icard-num">12</div>
+          <div class="icard-label">Lagos y cuerpos de agua intervenidos</div>
+        </div>
+        <div class="impact-num-card">
+          <div class="icard-num">38</div>
+          <div class="icard-label">Jornadas realizadas desde nuestros inicios</div>
+        </div>
+      </div>
+
+      <div class="impact-text fade-in fade-in-delay-2">
+        <div class="section-label">Nuestro Impacto</div>
+        <h2 class="section-title">Números que<br><span class="green">cuentan historias.</span></h2>
+        <p>Cada jornada deja un registro medible. Desde el primer evento, hemos crecido en voluntarios, cobertura y kilos de residuos retirados de nuestros preciados lagos.</p>
+        <p>El impacto no solo se mide en toneladas. Se mide en conciencias transformadas y comunidades que hoy cuidan sus aguas de forma permanente.</p>
+        <div class="lake-names">
+          <span class="lake-tag">🌊 Lago Ypacaraí</span>
+          <span class="lake-tag">🌊 Lago Itaipú</span>
+          <span class="lake-tag">🌊 Río Paraguay</span>
+          <span class="lake-tag">🌊 Laguna Blanca</span>
+          <span class="lake-tag">🌊 Y más...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section id="unirse" class="join-section">
+    <div class="join-inner">
+      <div class="section-label">Sé parte del cambio</div>
+      <h2 class="join-title">¿Listo para <span class="green">actuar</span>?</h2>
+      <p class="join-desc">Registrate y te contamos cuándo es la próxima jornada cerca de vos. Juntos podemos devolver la vida a nuestros lagos.</p>
+      <form class="join-form" onsubmit="handleSubmit(event)">
+        <input type="email" class="join-input" placeholder="Tu correo electrónico" required />
+        <button type="submit" class="join-btn">Quiero unirme</button>
+      </form>
+      <p id="form-success" style="display:none; color: var(--green); margin-top: 20px; font-weight: 600;">¡Gracias! Te contactaremos pronto. 🌿</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <img src="assets/BCP_LOGO.jpg" alt="Logo Basura Challenge Paraguay" />
+      <div class="footer-brand-text">BASURA CHALLENGE PARAGUAY</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#mision">Misión</a></li>
+      <li><a href="#actividades">Actividades</a></li>
+      <li><a href="#residuos">Residuos</a></li>
+      <li><a href="#impacto">Impacto</a></li>
+      <li><a href="#unirse">Sumate</a></li>
+    </ul>
+    <div class="footer-copy">
+      basurachallengepy@gmail.com<br>
+      © 2019 Basura Challenge Paraguay
+    </div>
+  </footer>
+
+  <script>
+    // Particles
+    const container = document.getElementById('particles');
+    if (container) {
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 10 + 4;
+        const colors = ['#1db954', '#4fc3f7', '#81d4fa', '#a5d6a7'];
+        p.style.cssText = `
+          width: ${size}px; height: ${size}px;
+          left: ${Math.random() * 100}%;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          animation-duration: ${Math.random() * 14 + 8}s;
+          animation-delay: ${Math.random() * 10}s;
+        `;
+        container.appendChild(p);
+      }
+    }
+
+    // Scroll nav shadow
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (nav) {
+        nav.style.boxShadow = window.scrollY > 40 ? '0 4px 24px rgba(0,0,0,0.08)' : 'none';
+      }
+    });
+
+    // Intersection Observer for fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Form handler
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.querySelector('.join-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }
+
+    // ANIME.JS - Efecto marquee para la sección features-strip
+    // Esperamos a que el DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function() {
+      const marquee = document.getElementById('marqueeContainer');
+      if (marquee) {
+        // Calculamos el ancho total del contenido
+        const marqueeWidth = marquee.scrollWidth / 2; // Dividimos entre 2 porque duplicamos el contenido
+        
+        // Configuración del timeline para animación continua
+        let animation = anime({
+          targets: marquee,
+          translateX: -marqueeWidth,
+          duration: 20000, // 20 segundos para completar el recorrido
+          easing: 'linear',
+          loop: true,
+          direction: 'reverse'
+        });
+        
+        // Pausar animación al hacer hover
+        const strip = document.getElementById('featuresStrip');
+        if (strip) {
+          strip.addEventListener('mouseenter', function() {
+            animation.pause();
+          });
+          strip.addEventListener('mouseleave', function() {
+            animation.play();
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
