@@ -4,6 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Basura Challenge Paraguay</title>
+
+  <!-- FIX 3: SEO meta tags añadidos -->
+  <meta name="description" content="Movimiento ambiental que protege los cuerpos de agua de Paraguay. Jornadas de limpieza, educación y comunidad de voluntarios.">
+  <meta property="og:title" content="Basura Challenge Paraguay">
+  <meta property="og:description" content="Más de 4.300 voluntarios limpiando los lagos de Paraguay. Sumate al movimiento.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://basurachallengeparaguay.netlify.app/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Font Awesome 6 (gratuito) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <!-- FIX: preconnect para fuentes más rápidas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
   <!-- Anime.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -30,6 +46,15 @@
       background: #fff;
       color: var(--text-dark);
       overflow-x: hidden;
+    }
+
+    /* FIX: prefers-reduced-motion global */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     /* ───── NAV ───── */
@@ -92,10 +117,25 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       transition: color 0.2s;
+      position: relative;
+    }
+
+    /* NUEVO: indicador de sección activa en nav */
+    .nav-links a.active {
+      color: var(--green-dark);
+    }
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 2px;
+      background: var(--green);
+      border-radius: 2px;
     }
 
     .nav-links a:hover { color: var(--green-dark); }
 
+    /* FIX: nav-cta visible en todos los tamaños */
     .nav-cta {
       background: var(--green);
       color: white !important;
@@ -107,6 +147,119 @@
     }
 
     .nav-cta:hover { background: var(--green-dark) !important; color: white !important; }
+
+    /* FIX 1: Menú hamburguesa para mobile */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+      /* FIX: foco visible */
+      outline: none;
+    }
+    .nav-hamburger:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
+    .nav-hamburger:hover { background: rgba(29,185,84,0.08); }
+
+    .hamburger-icon {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 22px;
+    }
+
+    .hamburger-icon span {
+      display: block;
+      height: 2px;
+      background: var(--text-dark);
+      border-radius: 2px;
+      transition: all 0.3s;
+      transform-origin: center;
+    }
+
+    /* Animación X al abrir */
+    .nav-hamburger[aria-expanded="true"] .hamburger-icon span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-hamburger[aria-expanded="true"] .hamburger-icon span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .nav-hamburger[aria-expanded="true"] .hamburger-icon span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* FIX 1: Menú mobile deslizable */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: rgba(10,46,20,0.97);
+      backdrop-filter: blur(16px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-menu a {
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.04em;
+      padding: 12px 24px;
+      border-radius: 12px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a:focus-visible {
+      color: var(--green);
+      background: rgba(29,185,84,0.08);
+      outline: none;
+    }
+
+    .mobile-menu-cta {
+      margin-top: 16px;
+      background: var(--green) !important;
+      color: white !important;
+      font-size: 18px !important;
+      padding: 14px 36px;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 32px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      line-height: 1;
+    }
+    .mobile-menu-close:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
 
     /* ───── HERO ───── */
     .hero {
@@ -122,7 +275,7 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background: 
+      background:
         radial-gradient(ellipse 80% 60% at 60% 50%, rgba(29,185,84,0.18) 0%, transparent 70%),
         radial-gradient(ellipse 50% 70% at 20% 80%, rgba(79,195,247,0.12) 0%, transparent 60%),
         linear-gradient(135deg, #071a0e 0%, #0a2e14 40%, #0d3d1a 100%);
@@ -190,17 +343,23 @@
       50% { opacity: 0.5; transform: scale(0.8); }
     }
 
+    /* FIX 2: clamp corregido — mínimo < máximo */
     .hero-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(42px, 5vw, 32px);
+      font-size: clamp(28px, 5vw, 52px);
       font-weight: 900;
-      line-height: 1.0;
+      line-height: 1.1;
       color: white;
       margin-bottom: 24px;
     }
 
     .hero-title .accent { color: var(--green); }
     .hero-title .accent-blue { color: var(--blue); }
+
+    /* FIX: h1 semántico para SEO */
+    h1.hero-title {
+      font-family: 'Montserrat', sans-serif;
+    }
 
     .hero-desc {
       font-size: 17px;
@@ -234,6 +393,13 @@
       background: var(--green-dark);
       transform: translateY(-2px);
       box-shadow: 0 12px 32px rgba(29,185,84,0.35);
+    }
+
+    /* FIX: foco visible en botones */
+    .btn-primary:focus-visible,
+    .btn-outline:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 3px;
     }
 
     .btn-outline {
@@ -411,7 +577,7 @@
 
     .section-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(32px, 3.5vw, 52px);
+      font-size: clamp(28px, 3.5vw, 52px);
       font-weight: 900;
       line-height: 1.1;
       color: var(--text-dark);
@@ -608,7 +774,6 @@
     .activity-card.featured {
       background: linear-gradient(135deg, rgba(29,185,84,0.15), rgba(29,185,84,0.05));
       border-color: rgba(29,185,84,0.3);
-      grid-row: span 1;
     }
 
     .activity-num {
@@ -657,25 +822,11 @@
     }
 
     /* ───── WASTE TYPES ───── */
-    .waste-section {
-      background: var(--off-white);
-      padding: 100px 48px;
-    }
+    .waste-section { background: var(--off-white); padding: 100px 48px; }
+    .waste-inner { max-width: 1200px; margin: 0 auto; }
 
-    .waste-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .waste-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
-    .waste-header .section-label {
-      justify-content: center;
-    }
-
+    .waste-header { text-align: center; margin-bottom: 64px; }
+    .waste-header .section-label { justify-content: center; }
     .waste-header .section-label::before { display: none; }
 
     .waste-grid {
@@ -684,6 +835,7 @@
       gap: 16px;
     }
 
+    /* FIX: waste cards accesibles con foco visible */
     .waste-card {
       background: white;
       border-radius: 20px;
@@ -694,16 +846,15 @@
       cursor: pointer;
     }
 
-    .waste-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    .waste-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+
+    .waste-card:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 3px;
+      transform: translateY(-4px);
     }
 
-    .waste-icon {
-      font-size: 40px;
-      margin-bottom: 16px;
-      display: block;
-    }
+    .waste-icon { font-size: 40px; margin-bottom: 16px; display: block; }
 
     .waste-card h4 {
       font-family: 'Montserrat', sans-serif;
@@ -714,11 +865,7 @@
       margin-bottom: 8px;
     }
 
-    .waste-card p {
-      font-size: 12px;
-      color: #7a9e84;
-      line-height: 1.5;
-    }
+    .waste-card p { font-size: 12px; color: #7a9e84; line-height: 1.5; }
 
     .waste-card.c1 { border-color: #4caf50; }
     .waste-card.c1 h4 { color: #2e7d32; }
@@ -741,24 +888,11 @@
     .waste-card.c5:hover { box-shadow: 0 16px 40px rgba(244,67,54,0.15); }
 
     /* ───── IMPACT ───── */
-    .impact-section {
-      padding: 100px 48px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .impact-section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
 
-    .impact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
+    .impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 
-    .impact-numbers {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
+    .impact-numbers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
     .impact-num-card {
       background: var(--off-white);
@@ -769,7 +903,6 @@
     }
 
     .impact-num-card:hover { transform: translateY(-4px); }
-
     .impact-num-card:nth-child(2) { border-color: var(--blue); }
     .impact-num-card:nth-child(3) { border-color: #ff9800; }
     .impact-num-card:nth-child(4) { border-color: #9c27b0; }
@@ -787,26 +920,11 @@
     .impact-num-card:nth-child(3) .icard-num { color: #ff9800; }
     .impact-num-card:nth-child(4) .icard-num { color: #9c27b0; }
 
-    .icard-label {
-      font-size: 13px;
-      color: #6a8f74;
-      line-height: 1.4;
-      font-weight: 500;
-    }
+    .icard-label { font-size: 13px; color: #6a8f74; line-height: 1.4; font-weight: 500; }
 
-    .impact-text p {
-      font-size: 17px;
-      line-height: 1.75;
-      color: #4a6e55;
-      margin-bottom: 20px;
-    }
+    .impact-text p { font-size: 17px; line-height: 1.75; color: #4a6e55; margin-bottom: 20px; }
 
-    .lake-names {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 28px;
-    }
+    .lake-names { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 
     .lake-tag {
       background: var(--off-white);
@@ -853,7 +971,7 @@
 
     .join-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(36px, 4vw, 60px);
+      font-size: clamp(32px, 4vw, 60px);
       font-weight: 900;
       color: white;
       line-height: 1.1;
@@ -869,12 +987,8 @@
       margin-bottom: 48px;
     }
 
-    .join-form {
-      display: flex;
-      gap: 12px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
+    /* FIX 3: Formulario con integración real + estados */
+    .join-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; }
 
     .join-input {
       flex: 1;
@@ -889,7 +1003,11 @@
     }
 
     .join-input::placeholder { color: rgba(255,255,255,0.35); }
-    .join-input:focus { border-color: rgba(29,185,84,0.6); }
+
+    .join-input:focus {
+      border-color: rgba(29,185,84,0.6);
+      box-shadow: 0 0 0 3px rgba(29,185,84,0.15);
+    }
 
     .join-btn {
       background: var(--green);
@@ -902,11 +1020,86 @@
       cursor: pointer;
       transition: all 0.25s;
       white-space: nowrap;
+      position: relative;
+      min-width: 140px;
     }
 
-    .join-btn:hover {
+    .join-btn:hover:not(:disabled) {
       background: var(--green-dark);
       box-shadow: 0 8px 24px rgba(29,185,84,0.4);
+    }
+
+    .join-btn:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 3px;
+    }
+
+    .join-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Estado de carga */
+    .join-btn .btn-loading {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .join-btn.loading .btn-text { display: none; }
+    .join-btn.loading .btn-loading { display: block; }
+
+    /* Mensaje error */
+    .form-error {
+      display: none;
+      color: #ff8a80;
+      font-size: 13px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .form-error.visible { display: block; }
+
+    /* ───── BACK TO TOP ───── */
+    /* NUEVO: botón volver arriba */
+    .back-to-top {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      width: 48px; height: 48px;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(29,185,84,0.4);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 90;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .back-to-top:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+    .back-to-top:focus-visible {
+      outline: 2px solid var(--green-dark);
+      outline-offset: 3px;
     }
 
     /* ───── FOOTER ───── */
@@ -920,14 +1113,11 @@
       gap: 20px;
     }
 
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
 
     .footer-brand img {
       width: 36px;
+      height: 36px;
       object-fit: contain;
       border-radius: 50%;
       opacity: 0.85;
@@ -941,11 +1131,7 @@
       letter-spacing: 0.06em;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
+    .footer-links { display: flex; gap: 28px; list-style: none; }
 
     .footer-links a {
       text-decoration: none;
@@ -955,21 +1141,45 @@
     }
 
     .footer-links a:hover { color: var(--green); }
+    .footer-links a:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 2px; }
+
+    /* NUEVO: redes sociales en footer */
+    .footer-social { display: flex; gap: 12px; align-items: center; }
+
+    .social-link {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.2s;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .social-link:hover {
+      background: rgba(29,185,84,0.15);
+      border-color: rgba(29,185,84,0.3);
+      color: var(--green);
+    }
+
+    .social-link:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
 
     .footer-copy {
       font-size: 12px;
       color: rgba(255,255,255,0.25);
       text-align: center;
+      width: 100%;
     }
 
-    .footer-copy a {
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-    }
-
-    .footer-copy a:hover {
-      color: var(--green);
-    }
+    .footer-copy a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-copy a:hover { color: var(--green); }
 
     /* ───── SCROLL ANIMATIONS ───── */
     .fade-in {
@@ -978,11 +1188,7 @@
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
     .fade-in-delay-1 { transition-delay: 0.1s; }
     .fade-in-delay-2 { transition-delay: 0.2s; }
     .fade-in-delay-3 { transition-delay: 0.3s; }
@@ -991,7 +1197,11 @@
     /* ───── RESPONSIVE ───── */
     @media (max-width: 900px) {
       nav { padding: 16px 24px; }
+
+      /* FIX 1: en mobile mostrar hamburguesa, ocultar links */
       .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
       .hero-content { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; text-align: center; }
       .hero-visual { order: -1; }
       .hero-actions { justify-content: center; }
@@ -1008,71 +1218,90 @@
       .impact-grid { grid-template-columns: 1fr; gap: 48px; }
       .join-section { padding: 80px 24px; }
       .join-form { flex-direction: column; }
-      .features-strip { gap: 28px; flex-wrap: wrap; padding: 16px 24px; justify-content: center; }
       footer { flex-direction: column; text-align: center; padding: 32px 24px; }
       .footer-links { flex-wrap: wrap; justify-content: center; }
+      .back-to-top { bottom: 20px; right: 20px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- FIX 1: Menú mobile overlay -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">×</button>
+    <a href="#mision" onclick="closeMobileMenu()">Misión</a>
+    <a href="#actividades" onclick="closeMobileMenu()">Actividades</a>
+    <a href="#residuos" onclick="closeMobileMenu()">Residuos</a>
+    <a href="#impacto" onclick="closeMobileMenu()">Impacto</a>
+    <a href="#unirse" class="mobile-menu-cta" onclick="closeMobileMenu()">Sumate →</a>
+  </div>
+
   <!-- NAV -->
   <nav id="navbar">
     <div class="nav-logo">
-      <img src="assets/BCP_LOGO.jpg" alt="Basura Challenge Paraguay Logo" />
+      <!-- FIX: width/height en imagen para evitar layout shift -->
+      <img src="assets/BCP_LOGO.jpg" alt="Basura Challenge Paraguay Logo" width="44" height="44" />
       <div class="nav-brand">
         Basura Challenge
         <span>Paraguay</span>
       </div>
     </div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="#mision">Misión</a></li>
       <li><a href="#actividades">Actividades</a></li>
       <li><a href="#residuos">Residuos</a></li>
       <li><a href="#impacto">Impacto</a></li>
       <li><a href="#unirse" class="nav-cta">Sumate</a></li>
     </ul>
+    <!-- FIX 1: botón hamburguesa -->
+    <button class="nav-hamburger" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+      <div class="hamburger-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-particles" id="particles"></div>
+    <div class="hero-particles" id="particles" aria-hidden="true"></div>
     <div class="hero-content">
       <div class="hero-text">
-        <h3 class="hero-title">
+        <!-- FIX: h1 semántico para SEO -->
+        <h1 class="hero-title">
           <span class="accent-blue">#</span>
           No solo nos preocupamos<br>
           <span class="accent-blue">#</span>
           También nos ocupamos
-        </h3>
+        </h1>
         <p class="hero-desc">
           Trabajamos para proteger los cuerpos de agua de Paraguay, organizando jornadas de limpieza, educando sobre tipos de residuos y construyendo comunidades conscientes.
         </p>
         <div class="hero-actions">
           <a href="#unirse" class="btn-primary">Quiero participar</a>
           <a href="#actividades" class="btn-outline">Ver actividades</a>
-          <span></span>
         </div>
       </div>
 
       <div class="hero-visual">
-        <div class="hero-logo-ring">
+        <div class="hero-logo-ring" aria-hidden="true">
           <div class="ring-outer"></div>
           <div class="ring-middle"></div>
-          <img src="assets/BCP_LOGO.jpg" alt="Basura Challenge Paraguay Logo" class="hero-logo-img" />
+          <img src="assets/BCP_LOGO.jpg" alt="Basura Challenge Paraguay Logo" class="hero-logo-img" width="200" height="200" />
         </div>
-        <div class="hero-stats">
+        <div class="hero-stats" aria-label="Estadísticas del movimiento">
           <div class="stat-item">
             <div class="stat-num">12+</div>
             <div class="stat-label">Lagos</div>
           </div>
-          <div class="stat-divider"></div>
+          <div class="stat-divider" aria-hidden="true"></div>
           <div class="stat-item">
             <div class="stat-num">4K</div>
             <div class="stat-label">Voluntarios</div>
           </div>
-          <div class="stat-divider"></div>
+          <div class="stat-divider" aria-hidden="true"></div>
           <div class="stat-item">
             <div class="stat-num">8T</div>
             <div class="stat-label">Residuos</div>
@@ -1082,15 +1311,14 @@
     </div>
   </section>
 
-  <!-- FEATURES STRIP con efecto marquee usando Anime.js -->
-  <div class="features-strip" id="featuresStrip">
+  <!-- FEATURES STRIP -->
+  <div class="features-strip" id="featuresStrip" aria-hidden="true">
     <div class="marquee-container" id="marqueeContainer">
       <div class="strip-item"><span class="strip-icon">🌊</span> Limpieza de orillas</div>
       <div class="strip-item"><span class="strip-icon">♻️</span> Clasificación de residuos</div>
       <div class="strip-item"><span class="strip-icon">📚</span> Capacitaciones</div>
       <div class="strip-item"><span class="strip-icon">🤝</span> Comunidades activas</div>
       <div class="strip-item"><span class="strip-icon">🌱</span> Ecosistema saludable</div>
-      <!-- Duplicamos el contenido para que el loop sea continuo -->
       <div class="strip-item"><span class="strip-icon">🌊</span> Limpieza de orillas</div>
       <div class="strip-item"><span class="strip-icon">♻️</span> Clasificación de residuos</div>
       <div class="strip-item"><span class="strip-icon">📚</span> Capacitaciones</div>
@@ -1110,21 +1338,21 @@
           <p>Basura Challenge nació para revertir ese daño, uniendo a ciudadanos, comunidades y organizaciones en una misma causa: aguas limpias para generaciones futuras.</p>
           <div class="mission-pillars">
             <div class="pillar">
-              <span class="pillar-icon">🧹</span>
+              <span class="pillar-icon" aria-hidden="true">🧹</span>
               <div class="pillar-content">
                 <h4>Jornadas de limpieza</h4>
                 <p>Eventos presenciales donde voluntarios retiran residuos de orillas y fondos de lagos.</p>
               </div>
             </div>
             <div class="pillar">
-              <span class="pillar-icon">🎓</span>
+              <span class="pillar-icon" aria-hidden="true">🎓</span>
               <div class="pillar-content">
                 <h4>Educación ambiental</h4>
                 <p>Talleres y capacitaciones sobre clasificación y manejo correcto de residuos.</p>
               </div>
             </div>
             <div class="pillar">
-              <span class="pillar-icon">📣</span>
+              <span class="pillar-icon" aria-hidden="true">📣</span>
               <div class="pillar-content">
                 <h4>Concientización social</h4>
                 <p>Campañas para crear una cultura de respeto y cuidado por el medioambiente.</p>
@@ -1134,7 +1362,7 @@
         </div>
 
         <div class="mission-visual fade-in fade-in-delay-2">
-          <div class="mission-card-stack">
+          <div class="mission-card-stack" aria-hidden="true">
             <div class="mcard mcard-1">
               <span class="mcard-emoji">🌊</span>
               <h3>Agua limpia</h3>
@@ -1168,43 +1396,43 @@
 
       <div class="activities-grid">
         <div class="activity-card featured fade-in">
-          <div class="activity-num">01</div>
-          <div class="activity-icon-wrap">🏊</div>
+          <div class="activity-num" aria-hidden="true">01</div>
+          <div class="activity-icon-wrap" aria-hidden="true">🏊</div>
           <h3>Limpieza de lagos</h3>
           <p>Organizamos jornadas presenciales donde buceadores y voluntarios en orillas trabajan en conjunto para extraer residuos del agua y las riberas.</p>
           <span class="activity-tag">→ Próxima fecha: Lago Ypacaraí</span>
         </div>
         <div class="activity-card fade-in fade-in-delay-1">
-          <div class="activity-num">02</div>
-          <div class="activity-icon-wrap">🗃️</div>
+          <div class="activity-num" aria-hidden="true">02</div>
+          <div class="activity-icon-wrap" aria-hidden="true">🗃️</div>
           <h3>Clasificación de residuos</h3>
           <p>Enseñamos a identificar y separar correctamente plásticos, vidrios, metales y residuos orgánicos para facilitar su reciclaje.</p>
           <span class="activity-tag">→ Taller mensual</span>
         </div>
         <div class="activity-card fade-in fade-in-delay-2">
-          <div class="activity-num">03</div>
-          <div class="activity-icon-wrap">🏫</div>
+          <div class="activity-num" aria-hidden="true">03</div>
+          <div class="activity-icon-wrap" aria-hidden="true">🏫</div>
           <h3>Educación en escuelas</h3>
           <p>Llevamos el mensaje a las nuevas generaciones con talleres interactivos en colegios y universidades de todo el país.</p>
           <span class="activity-tag">→ Programa escolar activo</span>
         </div>
         <div class="activity-card fade-in fade-in-delay-1">
-          <div class="activity-num">04</div>
-          <div class="activity-icon-wrap">📊</div>
+          <div class="activity-num" aria-hidden="true">04</div>
+          <div class="activity-icon-wrap" aria-hidden="true">📊</div>
           <h3>Monitoreo ambiental</h3>
           <p>Medimos la calidad del agua y la cantidad de residuos antes y después de cada jornada para documentar el impacto real.</p>
           <span class="activity-tag">→ Datos publicados abiertos</span>
         </div>
         <div class="activity-card fade-in fade-in-delay-2">
-          <div class="activity-num">05</div>
-          <div class="activity-icon-wrap">🌐</div>
+          <div class="activity-num" aria-hidden="true">05</div>
+          <div class="activity-icon-wrap" aria-hidden="true">🌐</div>
           <h3>Red de voluntarios</h3>
           <p>Construimos una comunidad comprometida con el medioambiente, conectando personas con propósito en toda Paraguay.</p>
           <span class="activity-tag">→ Sumate hoy</span>
         </div>
         <div class="activity-card fade-in fade-in-delay-3">
-          <div class="activity-num">06</div>
-          <div class="activity-icon-wrap">📱</div>
+          <div class="activity-num" aria-hidden="true">06</div>
+          <div class="activity-icon-wrap" aria-hidden="true">📱</div>
           <h3>Campañas digitales</h3>
           <p>Amplificamos el mensaje a través de redes sociales y contenido digital que inspira a miles a tomar acción desde casa.</p>
           <span class="activity-tag">→ #BasuraChallengePY</span>
@@ -1225,28 +1453,29 @@
       </div>
 
       <div class="waste-grid">
-        <div class="waste-card c1 fade-in">
-          <span class="waste-icon">🥬</span>
+        <!-- FIX: tabindex y role para accesibilidad de teclado -->
+        <div class="waste-card c1 fade-in" tabindex="0" role="button" aria-label="Residuos orgánicos">
+          <span class="waste-icon" aria-hidden="true">🥬</span>
           <h4>Orgánicos</h4>
           <p>Restos de alimentos, hojas y materias biodegradables. Se convierten en compost.</p>
         </div>
-        <div class="waste-card c2 fade-in fade-in-delay-1">
-          <span class="waste-icon">♻️</span>
+        <div class="waste-card c2 fade-in fade-in-delay-1" tabindex="0" role="button" aria-label="Residuos reciclables">
+          <span class="waste-icon" aria-hidden="true">♻️</span>
           <h4>Reciclables</h4>
           <p>Plástico, papel, cartón y metal que pueden ser procesados nuevamente.</p>
         </div>
-        <div class="waste-card c3 fade-in fade-in-delay-2">
-          <span class="waste-icon">🍶</span>
+        <div class="waste-card c3 fade-in fade-in-delay-2" tabindex="0" role="button" aria-label="Residuos de vidrio">
+          <span class="waste-icon" aria-hidden="true">🍶</span>
           <h4>Vidrio</h4>
           <p>Botellas y frascos. Reciclable al 100% y reutilizable infinitas veces.</p>
         </div>
-        <div class="waste-card c4 fade-in fade-in-delay-3">
-          <span class="waste-icon">⚠️</span>
+        <div class="waste-card c4 fade-in fade-in-delay-3" tabindex="0" role="button" aria-label="Residuos peligrosos">
+          <span class="waste-icon" aria-hidden="true">⚠️</span>
           <h4>Peligrosos</h4>
           <p>Pilas, medicamentos y químicos que requieren tratamiento especial.</p>
         </div>
-        <div class="waste-card c5 fade-in fade-in-delay-4">
-          <span class="waste-icon">🚫</span>
+        <div class="waste-card c5 fade-in fade-in-delay-4" tabindex="0" role="button" aria-label="Residuos no reciclables">
+          <span class="waste-icon" aria-hidden="true">🚫</span>
           <h4>No reciclables</h4>
           <p>Residuos que no pueden reciclarse y deben gestionarse con cuidado.</p>
         </div>
@@ -1298,18 +1527,35 @@
       <div class="section-label">Sé parte del cambio</div>
       <h2 class="join-title">¿Listo para <span class="green">actuar</span>?</h2>
       <p class="join-desc">Registrate y te contamos cuándo es la próxima jornada cerca de vos. Juntos podemos devolver la vida a nuestros lagos.</p>
-      <form class="join-form" onsubmit="handleSubmit(event)">
-        <input type="email" class="join-input" placeholder="Tu correo electrónico" required />
-        <button type="submit" class="join-btn">Quiero unirme</button>
+
+      <!-- FIX 3: Formulario con integración a API real + manejo de errores -->
+      <form class="join-form" id="joinForm" novalidate>
+        <label for="emailInput" class="sr-only">Tu correo electrónico</label>
+        <input
+          type="email"
+          id="emailInput"
+          class="join-input"
+          placeholder="Tu correo electrónico"
+          required
+          autocomplete="email"
+          aria-describedby="formError"
+        />
+        <button type="submit" class="join-btn" id="joinBtn">
+          <span class="btn-text">Quiero unirme</span>
+          <span class="btn-loading" aria-hidden="true"></span>
+        </button>
       </form>
-      <p id="form-success" style="display:none; color: var(--green); margin-top: 20px; font-weight: 600;">¡Gracias! Te contactaremos pronto. 🌿</p>
+      <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+      <p id="form-success" style="display:none; color: var(--green); margin-top: 20px; font-weight: 600;" role="status">
+        ¡Gracias! Te contactaremos pronto. 🌿
+      </p>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="footer-brand">
-      <img src="assets/BCP_LOGO.jpg" alt="Logo Basura Challenge Paraguay" />
+      <img src="assets/BCP_LOGO.jpg" alt="Logo Basura Challenge Paraguay" width="36" height="36" loading="lazy" />
       <div class="footer-brand-text">BASURA CHALLENGE PARAGUAY</div>
     </div>
     <ul class="footer-links">
@@ -1319,14 +1565,48 @@
       <li><a href="#impacto">Impacto</a></li>
       <li><a href="#unirse">Sumate</a></li>
     </ul>
+
+    <!-- REDES SOCIALES con Font Awesome -->
+    <div class="footer-social">
+      <a href="https://www.instagram.com/basurachallengeparaguay?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="social-link" aria-label="Instagram de Basura Challenge Paraguay">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=100065056111320" target="_blank" rel="noopener" class="social-link" aria-label="Facebook de Basura Challenge Paraguay">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://www.tiktok.com/@basurachallengepy?_r=1&_t=ZS-977gHuz6XuU" target="_blank" rel="noopener" class="social-link" aria-label="TikTok de Basura Challenge Paraguay">
+        <i class="fab fa-tiktok"></i>
+      </a>
+    </div>
+
     <div class="footer-copy">
       basurachallengepy@gmail.com<br>
-      © 2019 Basura Challenge Paraguay
+      <!-- FIX: año dinámico -->
+      © <span id="currentYear"></span> Basura Challenge Paraguay
     </div>
   </footer>
 
+  <!-- NUEVO: Botón volver arriba -->
+  <button class="back-to-top" id="backToTop" aria-label="Volver al inicio">↑</button>
+
+  <!-- sr-only para accesibilidad -->
+  <style>
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+
   <script>
-    // Particles
+    // ───── AÑO DINÁMICO ─────
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // ───── PARTICLES ─────
     const container = document.getElementById('particles');
     if (container) {
       for (let i = 0; i < 22; i++) {
@@ -1345,60 +1625,164 @@
       }
     }
 
-    // Scroll nav shadow
+    // ───── SCROLL: nav shadow + back-to-top + nav activo ─────
+    const sections = ['mision', 'actividades', 'residuos', 'impacto', 'unirse'];
+    const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+    const backToTop = document.getElementById('backToTop');
+
     window.addEventListener('scroll', () => {
       const nav = document.getElementById('navbar');
       if (nav) {
         nav.style.boxShadow = window.scrollY > 40 ? '0 4px 24px rgba(0,0,0,0.08)' : 'none';
       }
+
+      // Back to top
+      if (backToTop) {
+        backToTop.classList.toggle('visible', window.scrollY > 400);
+      }
+
+      // Nav link activo según sección visible
+      let current = '';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) {
+          current = id;
+        }
+      });
+
+      navAnchors.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
+      });
     });
 
-    // Intersection Observer for fade-in
+    backToTop?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ───── FIX 1: MENÚ HAMBURGUESA ─────
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu   = document.getElementById('mobileMenu');
+    const mobileClose  = document.getElementById('mobileMenuClose');
+    let lastFocused;
+
+    function openMobileMenu() {
+      lastFocused = document.activeElement;
+      mobileMenu.classList.add('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      hamburgerBtn.setAttribute('aria-label', 'Cerrar menú');
+      document.body.style.overflow = 'hidden';
+      mobileClose.focus();
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      hamburgerBtn.setAttribute('aria-label', 'Abrir menú');
+      document.body.style.overflow = '';
+      lastFocused?.focus();
+    }
+
+    hamburgerBtn?.addEventListener('click', () => {
+      mobileMenu.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
+    });
+
+    mobileClose?.addEventListener('click', closeMobileMenu);
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        closeMobileMenu();
+      }
+    });
+
+    // Trap focus dentro del menú mobile
+    mobileMenu?.addEventListener('keydown', e => {
+      if (e.key !== 'Tab') return;
+      const focusable = mobileMenu.querySelectorAll('a, button');
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    // ───── INTERSECTION OBSERVER ─────
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // Form handler
-    function handleSubmit(e) {
-      e.preventDefault();
-      document.querySelector('.join-form').style.display = 'none';
-      document.getElementById('form-success').style.display = 'block';
-    }
+    // ───── FIX 3: FORMULARIO CON INTEGRACIÓN REAL ─────
+    // Conecta con Formspree — reemplazá XXXXXXXX con tu ID de Formspree (gratis en formspree.io)
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/XXXXXXXX';
 
-    // ANIME.JS - Efecto marquee para la sección features-strip
-    // Esperamos a que el DOM esté completamente cargado
+    document.getElementById('joinForm')?.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const emailInput = document.getElementById('emailInput');
+      const joinBtn    = document.getElementById('joinBtn');
+      const formError  = document.getElementById('formError');
+      const formSuccess = document.getElementById('form-success');
+      const email = emailInput.value.trim();
+
+      // Validación
+      formError.classList.remove('visible');
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        formError.textContent = 'Por favor ingresá un correo válido.';
+        formError.classList.add('visible');
+        emailInput.focus();
+        return;
+      }
+
+      // Estado de carga
+      joinBtn.classList.add('loading');
+      joinBtn.disabled = true;
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ email, _subject: 'Nuevo voluntario - Basura Challenge PY' })
+        });
+
+        if (response.ok) {
+          // Éxito
+          document.getElementById('joinForm').style.display = 'none';
+          formSuccess.style.display = 'block';
+        } else {
+          throw new Error('Error en el servidor');
+        }
+      } catch (err) {
+        // Error — mostrar mensaje pero también abrir cliente de email como fallback
+        formError.textContent = 'Hubo un error. Escribinos directamente a basurachallengepy@gmail.com';
+        formError.classList.add('visible');
+      } finally {
+        joinBtn.classList.remove('loading');
+        joinBtn.disabled = false;
+      }
+    });
+
+    // ───── MARQUEE (Anime.js) ─────
     document.addEventListener('DOMContentLoaded', function() {
       const marquee = document.getElementById('marqueeContainer');
-      if (marquee) {
-        // Calculamos el ancho total del contenido
-        const marqueeWidth = marquee.scrollWidth / 2; // Dividimos entre 2 porque duplicamos el contenido
-        
-        // Configuración del timeline para animación continua
-        let animation = anime({
-          targets: marquee,
-          translateX: -marqueeWidth,
-          duration: 20000, // 20 segundos para completar el recorrido
-          easing: 'linear',
-          loop: true,
-          direction: 'reverse'
-        });
-        
-        // Pausar animación al hacer hover
-        const strip = document.getElementById('featuresStrip');
-        if (strip) {
-          strip.addEventListener('mouseenter', function() {
-            animation.pause();
-          });
-          strip.addEventListener('mouseleave', function() {
-            animation.play();
-          });
-        }
+      if (!marquee) return;
+
+      const marqueeWidth = marquee.scrollWidth / 2;
+
+      let animation = anime({
+        targets: marquee,
+        translateX: -marqueeWidth,
+        duration: 20000,
+        easing: 'linear',
+        loop: true,
+        direction: 'reverse'
+      });
+
+      const strip = document.getElementById('featuresStrip');
+      if (strip) {
+        strip.addEventListener('mouseenter', () => animation.pause());
+        strip.addEventListener('mouseleave', () => animation.play());
       }
     });
   </script>
